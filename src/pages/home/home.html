@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            Broadcast Transaction
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <button ion-button large full color="secondary" (click)="scan()" [disabled]="tmpDisabled">
+          <ion-icon name="qr-scanner"></ion-icon>
+              &nbsp; Scan QR CODE
+        </button>
+        <button ion-button large full color="secondary" (click)="broadcastTransaction()" [disabled]="btnDisabled">
+            <ion-icon name="logo-rss"></ion-icon>
+              &nbsp; Broadcast
+        </button>
+    </ion-list>
+</ion-content>
