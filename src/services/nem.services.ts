@@ -9,7 +9,7 @@ export class NemService {
     signedTx: any;
 
     constructor(private http: Http) {
-        this.nodeUrl = "http://bob.nem.ninja:7890/transaction/announce";
+        this.nodeUrl = "http://62.75.171.41:7890/transaction/announce";
         
     }
 

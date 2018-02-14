@@ -13,18 +13,23 @@ export class HomePage {
   public signedTransaction: any;
   public btnDisabled: boolean;
   returnMsg: any;
-  public tmpDisabled: boolean;
 
   constructor(
     public navCtrl: NavController,
-    private barcodeScnr: BarcodeScanner, 
+    private barcodeScnr: BarcodeScanner,
     private nemService: NemService,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController) {
-    this.signedTransaction = { "data": "0101000001000098fc80160420000000ddc585a3d11f5921e56c74b495e8e79b3884cd7c396ba9b56d73fa2868e201e880841e00000000000c8f160428000000544244545948545045534a544653445156544458324d32425648323546433546444d425234474f34404b4c000000000016000000010000000e00000046726f6d20616464726573732031", "signature": "92d183b4daccd11592bbf17ad063e7855ab5ecd4bc589cf5bfdbebda565c2dc425daca283649388d3d34c05cb7394f4978edc231012b9cf331ab7af5bfce3b04" };
-    this.btnDisabled = false;
-    this.tmpDisabled = true;
+
+    this.devfn();
+    //this.btnDisabled = true;
   }
+
+  devfn(){
+    this.signedTransaction = {"data":"010100000100006818216505200000007d2b057b8d2585d88128bdf75279b4f5c9aae855c273aa3daa10424e1728ef7f80841e000000000098726605280000004e424f4a42474f5a5a4d33524557364351335037564754433534523542594c535649465a4954565540420f000000000018000000010000001000000074657374207472616e73616374696f6e","signature":"088c3cc193ba53692ba21790d3cb215ea2d6d1b30caa39ec829478687f88ce594c50099b0792a7a77d81f29d3f3fd4ef83a9dadbbf39c97b4a15c748ba68c50a"};
+    this.btnDisabled = false;
+  }
+
 
   scan() {
     this.barcodeScnr.scan()
@@ -32,56 +37,54 @@ export class HomePage {
         if (bd.format !== "QR_CODE") {
           return; //return an error alert
         }
-        //Activate button
-        this.signedTransaction = bd.text;
+        //Activate broadcast button
+        //this.signedTransaction = bd.text;
         this.btnDisabled = false;
       }, (err) => {
-
-
+        this.showAlert("Error", err.message)
       })
   }
+
 
   broadcastTransaction() {
     let signedTX = this.signedTransaction || "";
     if (signedTX == "") {
-      //throw error or warning
-      //return;
+      return this.showAlert("Warning", "Check your scanned transaction")
     }
+
+    //load spinner
     let spnr = this.loadingCtrl.create({
       content: "Broadcasting transaction.."
     });
+
     spnr.present();
 
     this.nemService.broadcastTx(signedTX)
       .then((resp) => {
-        let retMsg = `MESSAGE: ${resp.message}, HASH: ${resp.transactionHash.data}`;
-        this.returnMsg = retMsg;
-
-        console.log(resp);
-        if (resp.message != "SUCCESS") {
-          spnr.dismiss();
-          this.showAlert("Error", retMsg);
-          return console.log(retMsg)
-        }
+        let retMsg = `MESSAGE: ${resp.message}
+         HASH: ${resp.transactionHash.data}`;
         spnr.dismiss();
-        this.showAlert("Success", retMsg);
-        return console.log(retMsg)
+
+        if (resp.message != "SUCCESS") {
+          return this.showAlert("Error", retMsg);
+        }
+
+        return this.showAlert("Success", retMsg);
       })
       .catch((err) => {
         spnr.dismiss();
-        this.showAlert("Error", err);
-        return console.log("error" + err)
+        return this.showAlert("Error", err);
       })
   }
 
-  showAlert(title, message){
-    let alrt = this.alertCtrl.create({
+
+  showAlert(title, message) {
+    this.alertCtrl.create({
       title: title,
       subTitle: message,
       buttons: ['Dismiss']
     }).present();
   }
 
-  //{innerTransactionHash: Object, code: 1, type: 1, message: "SUCCESS", transactionHash: Object}
-  //transactionHash.data
+
 }
