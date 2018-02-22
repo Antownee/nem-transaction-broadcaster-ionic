@@ -1,1 +1,17 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu side="left" [content]="content">
+    <ion-content>
+        <ion-toolbar>
+            <ion-title>Pages</ion-title>
+        </ion-toolbar>
+        <ion-list>
+            <button ion-item menuClose (click)="openPage(homePage)">
+                Home
+            </button>
+            <button ion-item menuClose (click)="openPage(settingsPage)">
+                Settings
+            </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-nav id="nav" [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

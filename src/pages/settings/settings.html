@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Settings</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-item>
+        <ion-label>Select server</ion-label>
+        <ion-select [(ngModel)]="selectedServer" (ionChange)="onSelectChange(selectedServer)">
+            <ion-option *ngFor="let server of serverList" value="{{server.uri}}">{{server.uri}}</ion-option>
+        </ion-select>
+    </ion-item>
+
+</ion-content>
