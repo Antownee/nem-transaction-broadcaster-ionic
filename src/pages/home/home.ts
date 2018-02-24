@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, AlertController } from 'ionic-angular';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner'
-import { NemService } from '../../services/nem.services'
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { NemService } from '../../services/nem.services';
 
 
 @Component({
@@ -22,6 +22,7 @@ export class HomePage {
     private alertCtrl: AlertController) {
 
     this.devfn();
+
     //this.btnDisabled = true;
   }
 

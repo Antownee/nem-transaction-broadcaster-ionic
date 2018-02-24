@@ -7,10 +7,18 @@
 
 <ion-content padding>
     <ion-item>
-        <ion-label>Select server</ion-label>
-        <ion-select [(ngModel)]="selectedServer" (ionChange)="onSelectChange(selectedServer)">
+        <ion-label full>Currently selected server: {{currentServer}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label stacked>Choose server</ion-label>
+        <ion-select [(ngModel)]="selectedServer" (ionChange)="onSelectChange(selectedServer)" [placeholder]="selectPlaceholder">
             <ion-option *ngFor="let server of serverList" value="{{server.uri}}">{{server.uri}}</ion-option>
         </ion-select>
     </ion-item>
+
+    <button ion-item (click)="addServer()">
+            Add custom server
+    </button>
 
 </ion-content>
